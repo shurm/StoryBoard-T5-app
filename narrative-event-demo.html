@@ -216,11 +216,16 @@
 					<h6 style="display:inline;"><i>(Version 1.0)</i></h6>
 				</h3>
 				<ul class="nav navbar-nav nav-flex-icons ml-auto">
-					<li class="nav-item"  style="margin:0px;padding:0px;">
+					<li class="nav-item" style="margin:0px;padding:0px;">
 						<span class="nav-link"><button id="saveToFile" class="btn btn-dark"><i class="fa fa-download"></i> Download</button></span>
 					</li>
-					<li class="nav-item"  style="margin:0px;padding:0px;">
-						<span class="nav-link"><button class="btn btn-dark"><i class="fa fa-upload"></i> Upload</button></a>
+					<li class="nav-item" style="margin:0px;padding:0px;">
+						<span class="nav-link"><div class="file-field big-2">
+    <div class="btn btn-dark">
+      <span>Upload<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
+      <input  id="loadFromFile" type="file">
+    </div>
+</div></span>
 					</li>
 				</ul>
 				<!-- SideNav slide-out button -->
@@ -507,7 +512,27 @@
 
 				downloadLink.click();
 			});
-
+			$('#loadFromFile').change(function(e)
+			{
+				//alert("lookATIT");
+				var fileInput = e.target;
+				//console.log(fileInput);
+				
+				var file = fileInput.files[0];
+				if (file) {
+					var reader = new FileReader();
+					reader.readAsText(file, "UTF-8");
+					reader.onload = function (evt) {
+						//document.getElementById("fileContents").innerHTML = evt.target.result;
+						console.log(evt.target.result);
+					}
+					reader.onerror = function (evt) {
+						//document.getElementById("fileContents").innerHTML = "error reading file";
+						console.log("error");
+					}
+				}
+				
+			});
 		</script>
 	</body>
 </html>
