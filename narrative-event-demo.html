@@ -174,14 +174,37 @@
 	</head>
 	<body class="fixed-sn light-blue-skin">
 	
-		<!--loading popup-->
-		<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content" style="width: 48px">
-					<span class="fa fa-spinner fa-spin fa-3x"></span>
+		<!-- loading popup- -->
+		<div class="modal fade" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Generating Story...</h4>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<!--Big blue loading spinner-->
+						<div class="d-flex justify-content-center">
+							<div class="preloader-wrapper active">
+								<div class="spinner-layer spinner-blue-only">
+									<div class="circle-clipper left">
+										<div class="circle"></div>
+									</div>
+									<div class="gap-patch">
+										<div class="circle"></div>
+									</div>
+									<div class="circle-clipper right">
+										<div class="circle"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		
 		
 		<!--Double navigation-->
 		<header>
@@ -216,16 +239,20 @@
 					<h6 style="display:inline;"><i>(Version 1.0)</i></h6>
 				</h3>
 				<ul class="nav navbar-nav nav-flex-icons ml-auto">
+					<!--Download button-->
 					<li class="nav-item" style="margin:0px;padding:0px;">
 						<span class="nav-link"><button id="saveToFile" class="btn btn-dark"><i class="fa fa-download"></i> Download</button></span>
 					</li>
+					
+					<!--Upload button-->
 					<li class="nav-item" style="margin:0px;padding:0px;">
-						<span class="nav-link"><div class="file-field big-2">
-    <div class="btn btn-dark">
-      <span>Upload<i class="fas fa-upload ml-3" aria-hidden="true"></i></span>
-      <input  id="loadFromFile" type="file">
-    </div>
-</div></span>
+						<span class="nav-link">
+							<div class="file-field big-2">
+								<div class="btn btn-dark">Upload<i class="fas fa-upload" aria-hidden="true"></i>
+									<input  id="loadFromFile" type="file">
+								</div>
+							</div>
+						</span>
 					</li>
 				</ul>
 				<!-- SideNav slide-out button -->
@@ -514,21 +541,27 @@
 			});
 			$('#loadFromFile').change(function(e)
 			{
-				//alert("lookATIT");
 				var fileInput = e.target;
-				//console.log(fileInput);
 				
 				var file = fileInput.files[0];
 				if (file) {
 					var reader = new FileReader();
 					reader.readAsText(file, "UTF-8");
-					reader.onload = function (evt) {
+					reader.onload = function (evt) 
+					{
 						//document.getElementById("fileContents").innerHTML = evt.target.result;
-						console.log(evt.target.result);
+						
+						try {
+							var fileContentMap = JSON.parse( evt.target.result);
+						} catch(e) {
+							alert("Error, incorrect file format"); // error in the above string (in this case, yes)!
+						}
+						
+						//console.log(evt.target.result);
 					}
 					reader.onerror = function (evt) {
 						//document.getElementById("fileContents").innerHTML = "error reading file";
-						console.log("error");
+						console.log("Error, reading file");
 					}
 				}
 				
