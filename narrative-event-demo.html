@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Storyboard Demo</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap">
+		<link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/css/mdb.min.css">
+		<style>
+			.navbar 
+			{
+				z-index: 1040;
+			}
+			.navbar-button
+			{
+				background-color:black;
+				color:white;
+				padding:10px;
+			}
+			.side-nav 
+			{
+				margin-top: 65px !important;
+			}
+			.side-nav
+			{
+				min-width: 25%;
+				margin-top: 100px;
+			}
+			#main
+			{
+				margin-top: 100px !important;
+				margin-right: 25.5%;
+				margin-left: 5px;
+			}
+			@media screen and (max-width: 900px) 
+			{
+				.side-nav
+				{
+					min-width: 75%;
+				}
+				#main
+				{
+					margin-right: 0px;
+				}
+			}
+			body .list
+			{
+				position: relative;
+				display: block;
+			}
+			body .list ::-webkit-input-placeholder 
+			{
+				color: #cecece;
+			}
+			body .list .input 
+			{
+				outline: none;
+				border: 1px solid white;
+				background-color: #53a8e6;
+				color: white;
+				height: 50px;
+				width: 250px;
+				padding-left: 10px;
+				font-family: "Raleway", sans-serif;
+				font-weight: 800;
+				font-size: 16px;
+				margin-left: -5px;
+			}
+			body .list span 
+			{
+				position: absolute;
+				right: 0;
+				top: 0;
+				font-size: 30px;
+				font-weight: 800;
+				line-height: 1.8;
+				cursor: pointer;
+				transition: all 200ms;
+				color: white;
+				will-change: transform;
+			}
+			body .list span:hover 
+			{
+				transform: rotate(180deg);
+			}
+			body ul 
+			{
+				padding: 0px;
+			}
+			body ul .draggable 
+			{
+				will-change: transform;
+				font-family: "Raleway", sans-serif;
+				font-weight: 800;
+				list-style-type: none;
+				margin: 10px;
+				background-color: white;
+				color: #212121;
+				padding:10px;
+				cursor: move;
+				transition: all 200ms;
+				user-select: none;
+			}
+			body ul .draggable:after 
+			{
+				content: 'drag me';
+				right: 7px;
+				font-size: 10px;
+				position: absolute;
+				cursor: pointer;
+				line-height: 5;
+				transition: all 200ms;
+				transition-timing-function: cubic-bezier(0.48, 0.72, 0.62, 1.5);
+				transform: translateX(120%);
+				opacity: 0;
+			}
+			body ul .draggable:hover:after 
+			{
+				opacity: 1;
+				transform: translate(0);
+			}
+			.over 
+			{
+				transform: scale(1.1, 1.1);
+			}
+			.text-center
+			{
+				list-style-type: none;
+			}
+			.navbar-nav > li
+			{
+				padding-left:30px;
+				padding-right:30px;
+			}
+			.add
+			{
+				position:fixed;
+				width:60px;
+				height:60px;
+				z-index: 40;
+				background-color:#0C9;
+				color:#FFF;
+				border-radius:50px;
+				text-align:center;
+				box-shadow: 2px 2px 3px #999;
+			}
+
+			.my-float
+			{
+				margin-top:22px;
+			}
+			.nav-item
+			{
+				margin: 0px;
+				padding: 0px;
+			}
+			.nav-item{
+				margin: 0px;
+				padding: 0px;
+			}
+			.btn-dark{
+				btn-dark: 0px;
+				btn-dark: 0px;
+			}
+		</style>
+	</head>
+	<body class="fixed-sn light-blue-skin">
+	
+		<!--loading popup-->
+		<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content" style="width: 48px">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</div>
+			</div>
+		</div>
+		
+		<!--Double navigation-->
+		<header>
+			<!-- Sidebar navigation -->
+			<div id="slide-out" class="side-nav sn-bg-4 fixed">
+				<ul class="custom-scrollbar">
+					<li class="list-group-item bg-light text-dark" style = "min-height: 20vh;">
+						<div class="card">
+							<div class="card-body  text-center" style="text-align: center;">
+								<i class="material-icons" style="font-size:48px;color:lightgray">remove_red_eye</i>
+								<p class="card-text">Click Run to view generated story.</p>
+								<button id="run-button" type="button" class="btn btn-success">Run <i class='fas fa-chevron-circle-right'></i></button>
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item bg-light text-dark" style = "min-height: 70vh;">
+						<div class="card">
+							<div class="card-header">Resulting Story:</div>
+							<div id ="resulting-story" class="card-body " style="text-align: center;">
+							
+							</div>
+						</div>
+					</li>
+				</ul>
+				<div class="sidenav-bg mask-strong"></div>
+			</div>
+			<!--/. Sidebar navigation -->
+			<!-- Navbar -->
+			<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg">
+				<h3>
+					Storyboard 
+					<h6 style="display:inline;"><i>(Version 1.0)</i></h6>
+				</h3>
+				<ul class="nav navbar-nav nav-flex-icons ml-auto">
+					<li class="nav-item"  style="margin:0px;padding:0px;">
+						<span class="nav-link"><button id="saveToFile" class="btn btn-dark"><i class="fa fa-download"></i> Download</button></span>
+					</li>
+					<li class="nav-item"  style="margin:0px;padding:0px;">
+						<span class="nav-link"><button class="btn btn-dark"><i class="fa fa-upload"></i> Upload</button></a>
+					</li>
+				</ul>
+				<!-- SideNav slide-out button -->
+				<div class="float-right">
+					<a href="#" data-activates="slide-out" class="button-collapse navbar-button"><i class="fa fa-bars"></i></a>
+				</div>
+			</nav>
+			<!-- /.Navbar -->
+		</header>
+		<!--/.Double navigation-->
+		<!--Main Layout-->
+		
+		<div id ="main">
+			
+			<h4> 
+				<b style="font-weight:900">Storyboard's purpose:</b> to create a story using events provided by the user.
+			</h4>
+			<div class="container">
+				
+			</div>
+			<div class="card">
+				<h4 class="card-header">Instructions</h4>
+				<div class="card-body">
+					<ol>
+						<li>Fill out every event with a one sentence description of your desired event:
+							<br>
+							<img src="StoryBoard sentence example.png"  height="200"></img>
+						</li>
+						<li>To add a new event click the + button</li>
+						<li>If your events become out of order: simply drag one event container onto another to swap their (SVO) values</li>
+						<li>Once you have filled out every event, click the run button to see the resulting story</li>
+					</ol>
+				</div>
+			</div>
+			<hr>
+			<a href="#" class="add">
+				<i class="fa fa-plus my-float"></i>
+			</a>
+			<li id="event-container" style="display:none;" class="draggable text-center" draggable="true">
+				<div class="container">
+					<button type="button" onclick="deleteEventLi(this)" class="close" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<table class="table table-striped">
+						<thead class="thead-dark">
+							<tr>
+								<th>Description of Event (one sentence)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<textarea placeholder='Enter description' class="form-control" required></textarea>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</li>
+			<li id="down-arrow" style="display:none;" class="text-center">
+				<i class="fa fa-arrow-down" style="font-size:56px"></i>
+			</li>
+			<ul id = "event-list">
+
+
+			</ul>
+		</div>
+		<!--Main Layout-->
+		<datalist id="verbs">
+			<option value="goes to">
+			<option value="kills">
+			<option value="steals">
+			<option value="cooks">
+		</datalist>
+		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/jquery.min.js"></script>
+		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/popper.min.js"></script>
+		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/bootstrap.min.js"></script>
+		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/mdb.min.js"></script>
+		<script>
+			$(document).ready(function() {
+			
+			  // SideNav Button Initialization
+			  $(".button-collapse").sideNav({
+				breakpoint: 1200,
+				edge:'right'
+			  });
+			  // SideNav Scrollbar Initialization
+			  var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+			  var ps = new PerfectScrollbar(sideNavScrollbar);
+			});
+		</script>
+		<script>
+			// Code By Webdevtrick ( https://webdevtrick.com )
+			var btn = document.querySelector('.add');
+			var remove = document.querySelector('.draggable');
+			
+			function dragStart(e) 
+			{
+				this.style.opacity = '0.4';
+				dragSrcEl = this;
+				e.dataTransfer.effectAllowed = 'move';
+			};
+			
+			function dragEnter(e) 
+			{
+				this.classList.add('over');
+			}
+			
+			function dragLeave(e) 
+			{
+				e.stopPropagation();
+				this.classList.remove('over');
+			}
+			
+			function dragOver(e) 
+			{
+				e.preventDefault();
+				e.dataTransfer.dropEffect = 'move';
+				return false;
+			}
+			
+			function dragDrop(e) 
+			{
+				if (dragSrcEl != this) 
+				{
+					var srcTextArea = dragSrcEl.getElementsByTagName("textarea")[0];
+					var tarTextArea = this.getElementsByTagName("textarea")[0];
+					
+					//swap the data
+					var temp = srcTextArea.value;
+					srcTextArea.value = tarTextArea.value;
+					
+					tarTextArea.value = temp;
+					
+				}
+				return false;
+			}
+			
+			function dragEnd(e) 
+			{
+				var listItens = document.querySelectorAll('.draggable');
+				[].forEach.call(listItens, function(item) {
+				  item.classList.remove('over');
+				});
+				this.style.opacity = '1';
+			}
+			
+			function addEventsDragAndDrop(el) {
+				el.addEventListener('dragstart', dragStart, false);
+				el.addEventListener('dragenter', dragEnter, false);
+				el.addEventListener('dragover', dragOver, false);
+				el.addEventListener('dragleave', dragLeave, false);
+				el.addEventListener('drop', dragDrop, false);
+				el.addEventListener('dragend', dragEnd, false);
+			}
+			
+			function cloneAndAddToEventList(eventList, id)
+			{
+				var eventContainerClone = document.getElementById(id).cloneNode( true );
+				eventContainerClone.removeAttribute("id");
+				eventContainerClone.style.display = "inherit";
+				eventList.appendChild(eventContainerClone);
+			}
+			
+			function addNewItem() 
+			{
+				//alert("add");
+				var eventList = document.getElementById("event-list");
+				if(eventList.childElementCount>0)
+					cloneAndAddToEventList(eventList, "down-arrow");
+				
+				cloneAndAddToEventList(eventList,"event-container");
+				
+				var listItems = document.querySelectorAll('.draggable');
+				[].forEach.call(listItems, function(item) {
+					addEventsDragAndDrop(item);
+				});
+				
+				
+				listItems = document.querySelectorAll('.form-control');
+				[].forEach.call(listItems, function(item) {
+					item.addEventListener('mousedown', mouseDown, false);
+				});
+				
+				
+				//scroll screen so user sees new event input container
+				setTimeout(function(){ window.scrollTo(0,document.body.scrollHeight); }, 100);
+				
+			}
+			
+			function mouseDown()
+			{
+				var listItems = document.querySelectorAll('.draggable');
+				
+				[].forEach.call(listItems, function(item) {
+					item.setAttribute("draggable", false);
+				});
+				//console.log("mouse down");
+			}
+			function mouseUp()
+			{
+				var listItems = document.querySelectorAll('.draggable');
+				[].forEach.call(listItems, function(item) {
+					item.setAttribute("draggable", true);
+				});
+				//console.log("mouse up");
+			}
+			function deleteEventLi(button)
+			{
+				var draggableDiv = button.parentNode.parentNode;
+				var downArrowBefore = draggableDiv.previousElementSibling;
+				var downArrowAfter = draggableDiv.nextElementSibling;
+				//console.log(draggableDiv);
+				//console.log(downArrow);
+				draggableDiv.parentNode.removeChild(draggableDiv);
+				if(downArrowBefore==null)
+				{
+					if(downArrowAfter!=null)
+						downArrowAfter.parentNode.removeChild(downArrowAfter);
+				}
+				else
+					downArrowBefore.parentNode.removeChild(downArrowBefore);
+			}
+			
+			btn.addEventListener('click', addNewItem);
+			
+			
+			var body = document.querySelector('body');
+			body.addEventListener('mouseup', mouseUp, false);
+			
+			addNewItem();
+			setTimeout(function(){ window.scrollTo(0,0); }, 200);
+		</script>
+		<script>
+		$("#run-button").click(function(){
+			$('.modal').modal('show');
+			var event_list = document.getElementById("event-list").getElementsByTagName("textarea");
+			var provided_list = [];
+			for(var i = 0;i<event_list.length;i++)
+				provided_list.push(event_list[i].value);
+			console.log(JSON.stringify(provided_list));
+				
+			setTimeout(function () {
+				//console.log('hejsan');
+				$('.modal').modal('hide');
+				
+				//var story_html_container = document.getElementById("resulting-story");
+				//story_html_container.innerHTML+=story;
+			}, 3000);
+		});
+		</script>
+		<script>
+			$('#saveToFile').click(function(e) 
+			{
+				var textarea_list = [];
+				var textareas = document.getElementsByTagName("textarea");
+				//ignore first one (thats the hidden template)
+				for(var i = 1;i<textareas.length;i++)
+					textarea_list.push(textareas[i].value);
+					
+				var data = {"data":textarea_list};
+				data = JSON.stringify(data,undefined,4);
+				var textFileAsBlob = new Blob([data], {type:'application/json'});
+				var fileNameToSaveAs = "story-input.json";
+
+				var downloadLink = document.createElement("a");
+				downloadLink.download = fileNameToSaveAs;
+				downloadLink.innerHTML = "Download File";
+				if (window.webkitURL != null)
+				{
+					// Chrome allows the link to be clicked
+					// without actually adding it to the DOM.
+					downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+				}
+				else
+				{
+					// Firefox requires the link to be added to the DOM
+					// before it can be clicked.
+					downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+					downloadLink.onclick = destroyClickedElement;
+					downloadLink.style.display = "none";
+					document.body.appendChild(downloadLink);
+				}
+
+				downloadLink.click();
+			});
+
+		</script>
+	</body>
+</html>
