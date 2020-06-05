@@ -505,6 +505,7 @@
 		});
 		</script>
 		<script>
+			const storyboardDataKey = "event-list";
 			$('#saveToFile').click(function(e) 
 			{
 				var textarea_list = [];
@@ -513,7 +514,9 @@
 				for(var i = 1;i<textareas.length;i++)
 					textarea_list.push(textareas[i].value);
 					
-				var data = {"data":textarea_list};
+				var data = {};
+				data[storyboardDataKey] = textarea_list;
+				
 				data = JSON.stringify(data,undefined,4);
 				var textFileAsBlob = new Blob([data], {type:'application/json'});
 				var fileNameToSaveAs = "story-input.json";
@@ -549,10 +552,18 @@
 					reader.readAsText(file, "UTF-8");
 					reader.onload = function (evt) 
 					{
-						//document.getElementById("fileContents").innerHTML = evt.target.result;
 						
 						try {
 							var fileContentMap = JSON.parse( evt.target.result);
+							if(storyboardDataKey in fileContentMap )
+							{
+								var event_list_to_add = fileContentMap[storyboardDataKey];
+								[].forEach.call(event_list_to_add, function(item) {
+									addNewItem();
+									var textareas = document.getElementsByTagName("textarea");
+									textareas[textareas.length-1].value = item;
+								});
+							}
 						} catch(e) {
 							alert("Error, incorrect file format"); // error in the above string (in this case, yes)!
 						}
@@ -560,8 +571,8 @@
 						//console.log(evt.target.result);
 					}
 					reader.onerror = function (evt) {
-						//document.getElementById("fileContents").innerHTML = "error reading file";
-						console.log("Error, reading file");
+						
+						alert("Error, reading file");
 					}
 				}
 				
