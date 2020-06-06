@@ -40,7 +40,11 @@
 				margin-right: 25.5%;
 				margin-left: 5px;
 			}
-			@media screen and (max-width: 900px) 
+			#toggleRightSide
+			{
+				display: none;
+			}
+			@media screen and (max-width: 1000px) 
 			{
 				.side-nav
 				{
@@ -49,6 +53,10 @@
 				#main
 				{
 					margin-right: 0px;
+				}
+				#toggleRightSide
+				{
+					display: initial;
 				}
 			}
 			body .list
@@ -257,7 +265,7 @@
 				</ul>
 				<!-- SideNav slide-out button -->
 				<div class="float-right">
-					<a href="#" data-activates="slide-out" class="button-collapse navbar-button"><i class="fa fa-bars"></i></a>
+					<a id="toggleRightSide" href="#" data-activates="slide-out" class="button-collapse navbar-button"><i class="fa fa-bars"></i></a>
 				</div>
 			</nav>
 			<!-- /.Navbar -->
@@ -277,13 +285,23 @@
 				<h4 class="card-header">Instructions</h4>
 				<div class="card-body">
 					<ol>
-						<li>Fill out every event with a one sentence description of your desired event:
-							<br>
-							<img src="StoryBoard sentence example.png"  height="200"></img>
+						<li>Fill out every event with a one sentence description of your desired event. 
+							
+							
+							<ul style="margin:0px 10px;">
+								<u>
+									<p style="margin:1px;">Some example event descriptions:</p>
+								</u>
+								<i>
+									<li>James saw a jewelry box in his neighbor's house.</li>
+									<li>He broke the window to steal it.</li>
+								</i>
+							</ul>
+							
 						</li>
-						<li>To add a new event click the + button</li>
-						<li>If your events become out of order: simply drag one event container onto another to swap their (SVO) values</li>
-						<li>Once you have filled out every event, click the run button to see the resulting story</li>
+						<li>To add a new event click the <i class="fa fa-plus-circle" style="color:#00D191"></i> button</li>
+						<li>If your events become out of order: simply drag one event container onto another to swap their order in the story.</li>
+						<li>Once you have filled your desired number of events, click the run button to see the resulting story.</li>
 					</ol>
 				</div>
 			</div>
@@ -336,7 +354,7 @@
 			
 			  // SideNav Button Initialization
 			  $(".button-collapse").sideNav({
-				breakpoint: 1200,
+				breakpoint: 1000,
 				edge:'right'
 			  });
 			  // SideNav Scrollbar Initialization
