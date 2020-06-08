@@ -2,8 +2,11 @@ var express = require('express');
 var app = express();
 var request = require("request")
 const bodyParser = require('body-parser');
+var rp = require('request-promise');
+const fetch = require("node-fetch");
+var FormData = require('form-data');
 
-
+const modelURL = "http://35.224.13.15/v1/models/half_plus_two:predict";
 app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,24 +18,17 @@ var PORT = 4006;
 app.listen(PORT);
 console.log('Listening at http://localhost:'+PORT);
 
-function createOptionsObj(instances_list)
+function createFetchObj(instance)
 {
-	var options = {
-	  uri: 'http://35.224.13.15/',
-	  method: 'POST',
-	  json: {
-		"instances": instances
-	  }
-	};
+	return fetch(modelURL,
+					{	method: "POST", 
+						body: JSON.stringify({"instances": [instance]}),
+						headers: {"Content-Type": "application/json"}
+					}).then(function(res){ return res.json(); })
 }
 app.get("/", function(req, res)
 {
 	res.render('index');
-});
-
-app.get("/test", function(req, res)
-{
-	res.render('index',{ story : ["Idealistic public defender Jerry Kellerman does whatever it takes to assist the helpless and disenfranchised", "which often leads to clashes in the courtroom presided over by Judge Trudy Kessler, a hard-liner hoping to become the city's next district attorney. Jerry has many clashes with both law enforcement and the assistant district attorneys (ADAs) such as Michelle Ernhardt, the beautiful and occasionally devious attorney with whom he has had a turbulent secret fling. Idealistic public defender Jerry Kellerman does whatever it takes to assist the helpless and disenfranchised, which often leads to clashes in the courtroom presided over by Judge Trudy Kessler, a hard-liner hoping to become the city's next district attorney. Jerry has many clashes with both law enforcement"," and the assistant district attorneys (ADAs) such as Michelle Ernhardt, the beautiful and occasionally devious attorney with whom he has had a turbulent secret fling. "] });
 });
 
 app.post('/queryStoryModel', function (req, res) {
@@ -49,8 +45,9 @@ app.post('/queryStoryModel', function (req, res) {
 	if(event_list.length==0)
 	{
 		var message = "Error, please enter at least 1 event description.";
-		res.send(message);
-		return
+		res.render('index',{ error_message : message});
+
+		return;
 	}
 	
 	for(var i = 0;i<event_list.length;i++)
@@ -59,7 +56,8 @@ app.post('/queryStoryModel', function (req, res) {
 		if(textFromUser.length==0)
 		{
 			var message = "Error, all event descriptions must contain some text.";
-			res.send(message);
+			res.render('index',{ error_message : message});
+
 			return;
 		}
 		event_list[i] = textFromUser;
@@ -76,7 +74,39 @@ app.post('/queryStoryModel', function (req, res) {
 	instances[instances.length-1] = prefix+event_list[event_list.length-1]+" "+prefix+dummyValue;
 	
 	console.log("instances: "+JSON.stringify(instances)); 
+	var fetches = [];
+	
+	for(var i =0;i<instances.length;i++)
+	{
+		fetches.push(createFetchObj(instances[i]));
+	}
+	console.log("fetches.length: "+fetches.length); 
+	Promise.all(fetches).then(data => {
+		var generated_texts = [];
+		for(var i =0;i<data.length;i++)
+		{
+			var generated_text = data[i]["predictions"][0]["outputs"];
+			generated_texts.push(generated_text);
+		}
+		 
+		console.log(generated_texts);
+		console.log("a.length "+generated_texts.length);
 
-	res.redirect('/test');
-	//"_: Andy was invited to a Halloween party. _: Andy was disappointed with his new, bold, green hair color."
+		 console.log("promise.all done");
+		 //res.send("done");
+		 
+		 res.render('index',{ generated_texts : generated_texts, provided_texts : event_list });
+
+		 
+		}).catch(function(err) {
+				// dispatch a failure and throw error
+			console.log("error!!!!!");
+			res.render('index',{ error_message : "There was an error processing your request. Please try again."});
+
+		});
+	//var options = createOptionsObj(instances[0]);
+	//console.log("options: "+JSON.stringify(options)); 
+
+
+
 });

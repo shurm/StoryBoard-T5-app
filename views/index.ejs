@@ -180,8 +180,10 @@
 			}
 		</style>
 	</head>
-	<body class="fixed-sn light-blue-skin">
 	
+	<body class="fixed-sn light-blue-skin">
+		
+		
 		<!-- loading popup- -->
 		<div class="modal fade" id="myModal">
 			<div class="modal-dialog">
@@ -233,12 +235,12 @@
 							<div class="card-header">Resulting Story:</div>
 							<div id ="resulting-story" class="card-body " style="text-align:center;">
 							
-								<% if (typeof story != "undefined") { %>
-									<% for(var i =0;i<story.length-1;i++) { %>
-										<mark><%= story[i] %></mark><%= story[i+1] %>
+								<% if (typeof generated_texts != "undefined") { %>
+									<% for(var i =0;i<provided_texts.length;i++) { %>
+										<mark><%= generated_texts[i] %></mark><%= provided_texts[i] %>
 										
 									<% } %>
-									<mark><%= story[story.length-1] %></mark>
+									<mark><%= generated_texts[generated_texts.length-1] %></mark>
 								<% } %>
 							</div>
 						</div>
@@ -281,6 +283,7 @@
 		<!--Main Layout-->
 		
 		<div id ="main">
+		
 			
 			<h4> 
 				<b style="font-weight:900">Storyboard's purpose:</b> to create a story using events provided by the user.
@@ -523,6 +526,7 @@
 			setTimeout(function(){ window.scrollTo(0,0); }, 200);
 		</script>
 		<script>
+		var provided_list = [];
 		$("#run-button").click(function(){
 			
 			var event_list = document.getElementById("event-list").getElementsByTagName("textarea");
@@ -531,7 +535,7 @@
 				alert("Error, please enter at least 1 event description.");
 				return;
 			}
-			var provided_list = [];
+			provided_list = [];
 			for(var i = 0;i<event_list.length;i++)
 			{
 				var textFromUser = event_list[i].value.trim().toLowerCase().replace(",", "");
@@ -643,5 +647,13 @@
 				
 			});
 		</script>
+		
+		<% if (typeof error_message != "undefined") { %>
+			<script>
+				var error_message1 = "<%= error_message  %>";  
+				alert(error_message1);
+				console.log(error_message1);
+			</script>			
+		<% }%>
 	</body>
 </html>
