@@ -232,10 +232,13 @@
 						<div class="card">
 							<div class="card-header">Resulting Story:</div>
 							<div id ="resulting-story" class="card-body " style="text-align: center;">
+							
 								<% if (typeof story != "undefined") { %>
-									
-									 <p><%= story %></p>
-									 
+									<% for(var i =0;i<story.length-1;i++) { %>
+										<mark><%= story[i] %></mark><%= story[i+1] %>
+										
+									<% } %>
+									<mark><%= story[story.length-1] %></mark>
 								<% } %>
 							</div>
 						</div>
