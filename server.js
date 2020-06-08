@@ -4,7 +4,6 @@ var request = require("request")
 const bodyParser = require('body-parser');
 var rp = require('request-promise');
 const fetch = require("node-fetch");
-var FormData = require('form-data');
 
 const modelURL = "http://35.224.13.15/v1/models/half_plus_two:predict";
 app.use(express.static(__dirname + '/public'));
