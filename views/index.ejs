@@ -218,8 +218,8 @@
 		<header>
 			<!-- Sidebar navigation -->
 			<div id="slide-out" class="side-nav sn-bg-4 fixed">
-				<ul class="custom-scrollbar" >
-					<li class="list-group-item bg-light text-dark" style = "min-height: 20vh;">
+				<ul class="custom-scrollbar" style = "display: flex; flex-flow: column; height: 100%;">
+					<li class="list-group-item bg-light text-dark" style = "flex: 0 1 auto;">
 						<div class="card">
 							<div class="card-body  text-center" style="text-align: center;">
 								<i class="material-icons" style="font-size:48px;color:lightgray">remove_red_eye</i>
@@ -228,10 +228,10 @@
 							</div>
 						</div>
 					</li>
-					<li class="list-group-item bg-light text-dark" style = "height: 68vh;">
+					<li class="list-group-item bg-light text-dark" style = "flex: 1 1 auto;">
 						<div class="card">
 							<div class="card-header">Resulting Story:</div>
-							<div id ="resulting-story" class="card-body " style="text-align: center;">
+							<div id ="resulting-story" class="card-body " style="text-align:center;">
 							
 								<% if (typeof story != "undefined") { %>
 									<% for(var i =0;i<story.length-1;i++) { %>
@@ -551,7 +551,7 @@
 			input.setAttribute("type", "text");
 			input.setAttribute("name", "event_list");
 			input.setAttribute("value", JSON.stringify(provided_list));
-			//form.appendChild(input);
+			form.appendChild(input);
 			
 			
 			form.submit();

@@ -77,6 +77,6 @@ app.post('/queryStoryModel', function (req, res) {
 	
 	console.log("instances: "+JSON.stringify(instances)); 
 
-	res.redirect('/');
+	res.redirect('/test');
 	//"_: Andy was invited to a Halloween party. _: Andy was disappointed with his new, bold, green hair color."
 });
