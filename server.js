@@ -8,6 +8,8 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
 var PORT = 4006;
 app.listen(PORT);
@@ -23,9 +25,14 @@ function createOptionsObj(instances_list)
 	  }
 	};
 }
+app.get("/", function(req, res)
+{
+	res.render('index');
+});
+
 app.get("/test", function(req, res)
 {
-	console.log("query: "+Object.keys(req.query));
+	res.render('index',{ story : "Idealistic public defender Jerry Kellerman does whatever it takes to assist the helpless and disenfranchised, which often leads to clashes in the courtroom presided over by Judge Trudy Kessler, a hard-liner hoping to become the city's next district attorney. Jerry has many clashes with both law enforcement and the assistant district attorneys (ADAs) such as Michelle Ernhardt, the beautiful and occasionally devious attorney with whom he has had a turbulent secret fling. Idealistic public defender Jerry Kellerman does whatever it takes to assist the helpless and disenfranchised, which often leads to clashes in the courtroom presided over by Judge Trudy Kessler, a hard-liner hoping to become the city's next district attorney. Jerry has many clashes with both law enforcement and the assistant district attorneys (ADAs) such as Michelle Ernhardt, the beautiful and occasionally devious attorney with whom he has had a turbulent secret fling. " });
 });
 
 app.post('/queryStoryModel', function (req, res) {
