@@ -521,7 +521,7 @@
 		</script>
 		<script>
 		$("#run-button").click(function(){
-			$('.modal').modal('show');
+			
 			var event_list = document.getElementById("event-list").getElementsByTagName("textarea");
 			if(event_list.length==0)
 			{
@@ -540,7 +540,8 @@
 				provided_list.push(textFromUser);
 			}
 			//console.log(JSON.stringify(provided_list));
-				
+			$('.modal').modal('show');
+			
 			var form = document.getElementById("story-generate-form")
 			
 			var input = document.createElement("input");
