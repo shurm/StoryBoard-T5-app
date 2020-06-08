@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var request = require("request")
 const bodyParser = require('body-parser');
 var rp = require('request-promise');
 const fetch = require("node-fetch");
