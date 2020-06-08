@@ -333,10 +333,21 @@
 			<li id="down-arrow" style="display:none;" class="text-center">
 				<i class="fa fa-arrow-down" style="font-size:56px"></i>
 			</li>
-			<ul id = "event-list">
+			<form id="story-generate-form" action="/queryStoryModel" method="post">
+				<ul id = "event-list">
 
 
-			</ul>
+				</ul>
+			<form>
+			<!--
+			<form action="/queryStoryModel" target="_blank" method="post">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" value="John"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+  <input type="submit" value="Submit">
+</form>
+-->
 		</div>
 		<!--Main Layout-->
 		<datalist id="verbs">
@@ -508,11 +519,38 @@
 		$("#run-button").click(function(){
 			$('.modal').modal('show');
 			var event_list = document.getElementById("event-list").getElementsByTagName("textarea");
+			if(event_list.length==0)
+			{
+				alert("Error, please enter at least 1 event description.");
+				return;
+			}
 			var provided_list = [];
 			for(var i = 0;i<event_list.length;i++)
-				provided_list.push(event_list[i].value);
-			console.log(JSON.stringify(provided_list));
+			{
+				var textFromUser = event_list[i].value.trim().toLowerCase().replace(",", "");
+				if(textFromUser.length==0)
+				{
+					alert("Error, all event descriptions must contain some text.");
+					return;
+				}
+				provided_list.push(textFromUser);
+			}
+			//console.log(JSON.stringify(provided_list));
 				
+			var form = document.getElementById("story-generate-form")
+			
+			var input = document.createElement("input");
+			input.setAttribute("type", "text");
+			input.setAttribute("name", "event_list");
+			input.setAttribute("value", JSON.stringify(provided_list));
+			//form.appendChild(input);
+			
+			
+			form.submit();
+			
+			form.removeChild(input);  
+			
+			/*
 			setTimeout(function () {
 				//console.log('hejsan');
 				$('.modal').modal('hide');
@@ -520,6 +558,7 @@
 				//var story_html_container = document.getElementById("resulting-story");
 				//story_html_container.innerHTML+=story;
 			}, 3000);
+			*/
 		});
 		</script>
 		<script>
