@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-var PORT = 4006;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 console.log('Listening at http://localhost:'+PORT);
 

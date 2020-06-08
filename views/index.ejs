@@ -216,7 +216,6 @@
 		</div>
 		
 		
-		<!--Double navigation-->
 		<header>
 			<!-- Sidebar navigation -->
 			<div id="slide-out" class="side-nav sn-bg-4 fixed">
@@ -235,6 +234,8 @@
 							<div class="card-header">Resulting Story:</div>
 							<div id ="resulting-story" class="card-body " style="text-align:center;">
 							
+								<!--display generated story to the user (if there is one)-->
+		
 								<% if (typeof generated_texts != "undefined") { %>
 									<% for(var i =0;i<provided_texts.length;i++) { %>
 										<mark><%= generated_texts[i] %></mark><%= provided_texts[i] %>
@@ -321,6 +322,7 @@
 						<li>To add a new event click the <i class="fa fa-plus-circle" style="color:#00D191"></i> button</li>
 						<li>If your events become out of order: simply drag one event container onto another to swap their order in the story.</li>
 						<li>Once you have filled your desired number of events, click the run button to see the resulting story.</li>
+						<li>If you wish to save what you write and add more later use the Download and Upload buttons.</li>
 					</ol>
 				</div>
 			</div>
