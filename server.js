@@ -43,7 +43,7 @@ app.post('/queryStoryModel', function (req, res) {
 	if(event_list.length==0)
 	{
 		var message = "Error, please enter at least 1 event description.";
-		res.render('index',{ error_message : message});
+		res.render('index',{ error_message : message, provided_texts : original_text});
 
 		return;
 	}
@@ -54,7 +54,7 @@ app.post('/queryStoryModel', function (req, res) {
 		if(textFromUser.length==0)
 		{
 			var message = "Error, all event descriptions must contain some text.";
-			res.render('index',{ error_message : message});
+			res.render('index',{ error_message : message, provided_texts : original_text});
 
 			return;
 		}
@@ -100,7 +100,7 @@ app.post('/queryStoryModel', function (req, res) {
 		}).catch(function(err) {
 				// dispatch a failure and throw error
 			console.log("error!!!!!");
-			res.render('index',{ error_message : "There was an error processing your request. Please try again."});
+			res.render('index',{ error_message : "There was an error processing your request. Please try again.", provided_texts : original_text });
 
 		});
 	//var options = createOptionsObj(instances[0]);

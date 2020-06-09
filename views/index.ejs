@@ -509,7 +509,13 @@
 				var body = document.querySelector('body');
 				body.addEventListener('mouseup', mouseUp, false);
 				
-				
+				function decodeHtml(html)
+				{
+					//alert("decode");
+					var txt = document.createElement("textarea");
+					txt.innerHTML = html;
+					return txt.value;
+				}
 			</script>
 			
 			<form id="story-generate-form" action="/queryStoryModel" method="post">
@@ -520,7 +526,8 @@
 						
 							<script>
 								var text = "<%= provided_texts[i]  %>"; 
-								addNewItemHelper(text);
+								
+								addNewItemHelper(decodeHtml(text));
 							
 							</script>
 							
