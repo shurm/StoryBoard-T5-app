@@ -31,15 +31,15 @@ app.get("/", function(req, res)
 
 app.post('/queryStoryModel', function (req, res) {
     
-	console.log("query: "+Object.keys(req.query));
+	
 	console.log("body: "+JSON.stringify(req.body)); 
 
 	var param_name = "event_list";
 	//console.log("body: "+JSON.stringify()); 
 
-	var event_list = (req.body[param_name] || '[]')
-	var event_list = JSON.parse(event_list);
-
+	var original_text = (req.body[param_name] || '[]')
+	original_text = JSON.parse(original_text);
+	var event_list = original_text.slice();
 	if(event_list.length==0)
 	{
 		var message = "Error, please enter at least 1 event description.";
@@ -60,6 +60,7 @@ app.post('/queryStoryModel', function (req, res) {
 		}
 		event_list[i] = textFromUser;
 	}
+	console.log("original_text is "+original_text.toString());
 	
 	var dummyValue = ".";
 	var prefix = "_: ";
@@ -92,8 +93,8 @@ app.post('/queryStoryModel', function (req, res) {
 
 		 console.log("promise.all done");
 		 //res.send("done");
-		 
-		 res.render('index',{ generated_texts : generated_texts, provided_texts : event_list });
+		
+		 res.render('index',{ generated_texts : generated_texts, provided_texts : original_text });
 
 		 
 		}).catch(function(err) {

@@ -179,6 +179,9 @@
 				btn-dark: 0px;
 			}
 		</style>
+		<script>
+			
+		</script>
 	</head>
 	
 	<body class="fixed-sn light-blue-skin">
@@ -210,6 +213,9 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="modal-footer">
+						<h6 class="modal-title text-right">this may take up to 10 seconds...</h6>
 					</div>
 				</div>
 			</div>
@@ -354,10 +360,174 @@
 			<li id="down-arrow" style="display:none;" class="text-center">
 				<i class="fa fa-arrow-down" style="font-size:56px"></i>
 			</li>
+			
+			<script>
+				// Code By Webdevtrick ( https://webdevtrick.com )
+				var btn = document.querySelector('.add');
+				var remove = document.querySelector('.draggable');
+				
+				function dragStart(e) 
+				{
+					this.style.opacity = '0.4';
+					dragSrcEl = this;
+					e.dataTransfer.effectAllowed = 'move';
+				};
+				
+				function dragEnter(e) 
+				{
+					this.classList.add('over');
+				}
+				
+				function dragLeave(e) 
+				{
+					e.stopPropagation();
+					this.classList.remove('over');
+				}
+				
+				function dragOver(e) 
+				{
+					e.preventDefault();
+					e.dataTransfer.dropEffect = 'move';
+					return false;
+				}
+				
+				function dragDrop(e) 
+				{
+					if (dragSrcEl != this) 
+					{
+						var srcTextArea = dragSrcEl.getElementsByTagName("textarea")[0];
+						var tarTextArea = this.getElementsByTagName("textarea")[0];
+						
+						//swap the data
+						var temp = srcTextArea.value;
+						srcTextArea.value = tarTextArea.value;
+						
+						tarTextArea.value = temp;
+						
+					}
+					return false;
+				}
+				
+				function dragEnd(e) 
+				{
+					var listItens = document.querySelectorAll('.draggable');
+					[].forEach.call(listItens, function(item) {
+					  item.classList.remove('over');
+					});
+					this.style.opacity = '1';
+				}
+				
+				function addEventsDragAndDrop(el) {
+					el.addEventListener('dragstart', dragStart, false);
+					el.addEventListener('dragenter', dragEnter, false);
+					el.addEventListener('dragover', dragOver, false);
+					el.addEventListener('dragleave', dragLeave, false);
+					el.addEventListener('drop', dragDrop, false);
+					el.addEventListener('dragend', dragEnd, false);
+				}
+				
+				function cloneAndAddToEventList(eventList, id, text)
+				{
+					var eventContainerClone = document.getElementById(id).cloneNode( true );
+					eventContainerClone.removeAttribute("id");
+					eventContainerClone.style.display = "inherit";
+					eventList.appendChild(eventContainerClone);
+					
+					if(text!=null)
+						eventContainerClone.getElementsByTagName("textarea")[0].value = text;
+				}
+				
+				
+				
+				function addNewItemHelper(text)
+				{
+					var eventList = document.getElementById("event-list");
+					if(eventList.childElementCount>0)
+						cloneAndAddToEventList(eventList, "down-arrow");
+					
+					cloneAndAddToEventList(eventList,"event-container", text);
+					
+					var listItems = document.querySelectorAll('.draggable');
+					[].forEach.call(listItems, function(item) {
+						addEventsDragAndDrop(item);
+					});
+					
+					
+					listItems = document.querySelectorAll('.form-control');
+					[].forEach.call(listItems, function(item) {
+						item.addEventListener('mousedown', mouseDown, false);
+					});
+					
+					
+					//scroll screen so user sees new event input container
+					setTimeout(function(){ window.scrollTo(0,document.body.scrollHeight); }, 100);
+				}
+				
+				function addNewItem() 
+				{
+					//alert("add");
+					addNewItemHelper(null);
+				}
+				
+				function mouseDown()
+				{
+					var listItems = document.querySelectorAll('.draggable');
+					
+					[].forEach.call(listItems, function(item) {
+						item.setAttribute("draggable", false);
+					});
+					//console.log("mouse down");
+				}
+				function mouseUp()
+				{
+					var listItems = document.querySelectorAll('.draggable');
+					[].forEach.call(listItems, function(item) {
+						item.setAttribute("draggable", true);
+					});
+					//console.log("mouse up");
+				}
+				function deleteEventLi(button)
+				{
+					var draggableDiv = button.parentNode.parentNode;
+					var downArrowBefore = draggableDiv.previousElementSibling;
+					var downArrowAfter = draggableDiv.nextElementSibling;
+					//console.log(draggableDiv);
+					//console.log(downArrow);
+					draggableDiv.parentNode.removeChild(draggableDiv);
+					if(downArrowBefore==null)
+					{
+						if(downArrowAfter!=null)
+							downArrowAfter.parentNode.removeChild(downArrowAfter);
+					}
+					else
+						downArrowBefore.parentNode.removeChild(downArrowBefore);
+				}
+				
+				btn.addEventListener('click', addNewItem);
+				
+				
+				var body = document.querySelector('body');
+				body.addEventListener('mouseup', mouseUp, false);
+				
+				
+			</script>
+			
 			<form id="story-generate-form" action="/queryStoryModel" method="post">
 				<ul id = "event-list">
-
-
+					<% if (typeof provided_texts != "undefined") { %>
+						
+						<% for(var i =0;i<provided_texts.length;i++) { %>
+						
+							<script>
+								var text = "<%= provided_texts[i]  %>"; 
+								addNewItemHelper(text);
+							
+							</script>
+							
+						<% } %>
+						
+					<% } %>
+					
 				</ul>
 			<form>
 			<!--
@@ -393,149 +563,13 @@
 			  var sideNavScrollbar = document.querySelector('.custom-scrollbar');
 			  var ps = new PerfectScrollbar(sideNavScrollbar);
 			});
+			<% if (typeof provided_texts == "undefined") { %>
+					
+				addNewItem();
+				setTimeout(function(){ window.scrollTo(0,0); }, 200);
+			<% } %>
 		</script>
-		<script>
-			// Code By Webdevtrick ( https://webdevtrick.com )
-			var btn = document.querySelector('.add');
-			var remove = document.querySelector('.draggable');
-			
-			function dragStart(e) 
-			{
-				this.style.opacity = '0.4';
-				dragSrcEl = this;
-				e.dataTransfer.effectAllowed = 'move';
-			};
-			
-			function dragEnter(e) 
-			{
-				this.classList.add('over');
-			}
-			
-			function dragLeave(e) 
-			{
-				e.stopPropagation();
-				this.classList.remove('over');
-			}
-			
-			function dragOver(e) 
-			{
-				e.preventDefault();
-				e.dataTransfer.dropEffect = 'move';
-				return false;
-			}
-			
-			function dragDrop(e) 
-			{
-				if (dragSrcEl != this) 
-				{
-					var srcTextArea = dragSrcEl.getElementsByTagName("textarea")[0];
-					var tarTextArea = this.getElementsByTagName("textarea")[0];
-					
-					//swap the data
-					var temp = srcTextArea.value;
-					srcTextArea.value = tarTextArea.value;
-					
-					tarTextArea.value = temp;
-					
-				}
-				return false;
-			}
-			
-			function dragEnd(e) 
-			{
-				var listItens = document.querySelectorAll('.draggable');
-				[].forEach.call(listItens, function(item) {
-				  item.classList.remove('over');
-				});
-				this.style.opacity = '1';
-			}
-			
-			function addEventsDragAndDrop(el) {
-				el.addEventListener('dragstart', dragStart, false);
-				el.addEventListener('dragenter', dragEnter, false);
-				el.addEventListener('dragover', dragOver, false);
-				el.addEventListener('dragleave', dragLeave, false);
-				el.addEventListener('drop', dragDrop, false);
-				el.addEventListener('dragend', dragEnd, false);
-			}
-			
-			function cloneAndAddToEventList(eventList, id)
-			{
-				var eventContainerClone = document.getElementById(id).cloneNode( true );
-				eventContainerClone.removeAttribute("id");
-				eventContainerClone.style.display = "inherit";
-				eventList.appendChild(eventContainerClone);
-			}
-			
-			function addNewItem() 
-			{
-				//alert("add");
-				var eventList = document.getElementById("event-list");
-				if(eventList.childElementCount>0)
-					cloneAndAddToEventList(eventList, "down-arrow");
-				
-				cloneAndAddToEventList(eventList,"event-container");
-				
-				var listItems = document.querySelectorAll('.draggable');
-				[].forEach.call(listItems, function(item) {
-					addEventsDragAndDrop(item);
-				});
-				
-				
-				listItems = document.querySelectorAll('.form-control');
-				[].forEach.call(listItems, function(item) {
-					item.addEventListener('mousedown', mouseDown, false);
-				});
-				
-				
-				//scroll screen so user sees new event input container
-				setTimeout(function(){ window.scrollTo(0,document.body.scrollHeight); }, 100);
-				
-			}
-			
-			function mouseDown()
-			{
-				var listItems = document.querySelectorAll('.draggable');
-				
-				[].forEach.call(listItems, function(item) {
-					item.setAttribute("draggable", false);
-				});
-				//console.log("mouse down");
-			}
-			function mouseUp()
-			{
-				var listItems = document.querySelectorAll('.draggable');
-				[].forEach.call(listItems, function(item) {
-					item.setAttribute("draggable", true);
-				});
-				//console.log("mouse up");
-			}
-			function deleteEventLi(button)
-			{
-				var draggableDiv = button.parentNode.parentNode;
-				var downArrowBefore = draggableDiv.previousElementSibling;
-				var downArrowAfter = draggableDiv.nextElementSibling;
-				//console.log(draggableDiv);
-				//console.log(downArrow);
-				draggableDiv.parentNode.removeChild(draggableDiv);
-				if(downArrowBefore==null)
-				{
-					if(downArrowAfter!=null)
-						downArrowAfter.parentNode.removeChild(downArrowAfter);
-				}
-				else
-					downArrowBefore.parentNode.removeChild(downArrowBefore);
-			}
-			
-			btn.addEventListener('click', addNewItem);
-			
-			
-			var body = document.querySelector('body');
-			body.addEventListener('mouseup', mouseUp, false);
-			
-			addNewItem();
-			setTimeout(function(){ window.scrollTo(0,0); }, 200);
-		</script>
+
 		<script>
 		var provided_list = [];
 		$("#run-button").click(function(){
@@ -549,7 +583,7 @@
 			provided_list = [];
 			for(var i = 0;i<event_list.length;i++)
 			{
-				var textFromUser = event_list[i].value.trim().toLowerCase().replace(",", "");
+				var textFromUser = event_list[i].value.trim();
 				if(textFromUser.length==0)
 				{
 					alert("Error, all event descriptions must contain some text.");
@@ -557,8 +591,11 @@
 				}
 				provided_list.push(textFromUser);
 			}
-			//console.log(JSON.stringify(provided_list));
-			$('.modal').modal('show');
+			console.log(JSON.stringify(provided_list));
+			
+			//displays the loading modal and prevents it from closing
+			$('#myModal').modal({backdrop:'static', keyboard:false});
+			$('#myModal').modal('show');
 			
 			var form = document.getElementById("story-generate-form")
 			
@@ -576,7 +613,7 @@
 			/*
 			setTimeout(function () {
 				//console.log('hejsan');
-				$('.modal').modal('hide');
+				$('#myModal').modal('hide');
 				
 				//var story_html_container = document.getElementById("resulting-story");
 				//story_html_container.innerHTML+=story;
@@ -639,9 +676,7 @@
 							{
 								var event_list_to_add = fileContentMap[storyboardDataKey];
 								[].forEach.call(event_list_to_add, function(item) {
-									addNewItem();
-									var textareas = document.getElementsByTagName("textarea");
-									textareas[textareas.length-1].value = item;
+									addNewItemHelper(item);
 								});
 							}
 						} catch(e) {
