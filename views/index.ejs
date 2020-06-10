@@ -59,6 +59,14 @@
 					display: initial;
 				}
 			}
+			@media screen and (max-width: 675px) 
+			{
+				
+				#main
+				{
+					margin-top: 150px !important;
+				}
+			}
 			body .list
 			{
 				position: relative;
@@ -148,23 +156,27 @@
 				padding-left:30px;
 				padding-right:30px;
 			}
-			.add
+			.fixed-ct {
+			  position: sticky;
+			  width:80px;
+			  height:80px;
+			  background: red;
+			  top:100px;
+			  background-color:#0C9;
+			  border-radius:50px;
+			  text-align:center;
+			  box-shadow: 2px 2px 3px #999;
+			  display: flex;
+			  align-items: center;
+			  justify-content: center;
+			  z-index: 40;
+			}
+			
+			#add-button
 			{
-				position:fixed;
-				width:60px;
-				height:60px;
-				z-index: 40;
-				background-color:#0C9;
 				color:#FFF;
-				border-radius:50px;
-				text-align:center;
-				box-shadow: 2px 2px 3px #999;
 			}
-
-			.my-float
-			{
-				margin-top:22px;
-			}
+			
 			.nav-item
 			{
 				margin: 0px;
@@ -178,6 +190,7 @@
 				btn-dark: 0px;
 				btn-dark: 0px;
 			}
+			
 		</style>
 		<script>
 			
@@ -259,9 +272,9 @@
 			<!-- Navbar -->
 			<nav class="navbar fixed-top navbar-toggleable-md navbar-expand-lg">
 			
-				<h3>
+				<h3 id="app-title">
 					Storyboard 
-					<h6 style="display:inline;"><i>(Version 1.0)</i></h6>
+					<span style="font-size:20px;"><i>(Version 1.0)</i></span>
 					
 				</h3>
 				
@@ -291,7 +304,6 @@
 		</header>
 		<!--/.Double navigation-->
 		<!--Main Layout-->
-		
 		<div id ="main">
 		
 			
@@ -333,9 +345,7 @@
 				</div>
 			</div>
 			<hr>
-			<a href="#" class="add">
-				<i class="fa fa-plus my-float"></i>
-			</a>
+			
 			<li id="event-container" style="display:none;" class="draggable text-center" draggable="true">
 				<div class="container">
 					<button type="button" onclick="deleteEventLi(this)" class="close" aria-label="Close">
@@ -363,7 +373,6 @@
 			
 			<script>
 				// Code By Webdevtrick ( https://webdevtrick.com )
-				var btn = document.querySelector('.add');
 				var remove = document.querySelector('.draggable');
 				
 				function dragStart(e) 
@@ -503,9 +512,6 @@
 						downArrowBefore.parentNode.removeChild(downArrowBefore);
 				}
 				
-				btn.addEventListener('click', addNewItem);
-				
-				
 				var body = document.querySelector('body');
 				body.addEventListener('mouseup', mouseUp, false);
 				
@@ -519,6 +525,11 @@
 			</script>
 			
 			<form id="story-generate-form" action="/queryStoryModel" method="post">
+			<div class="fixed-ct">
+				<a href="#" id="add-button" >
+					<i class="fa fa-plus"></i>
+				</a>
+			</div>
 				<ul id = "event-list">
 					<% if (typeof provided_texts != "undefined") { %>
 						
@@ -537,28 +548,17 @@
 					
 				</ul>
 			<form>
-			<!--
-			<form action="/queryStoryModel" target="_blank" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit">
-</form>
--->
+
 		</div>
-		<!--Main Layout-->
-		<datalist id="verbs">
-			<option value="goes to">
-			<option value="kills">
-			<option value="steals">
-			<option value="cooks">
-		</datalist>
+		
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/jquery.min.js"></script>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/popper.min.js"></script>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/bootstrap.min.js"></script>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/mdb.min.js"></script>
 		<script>
+			var addButton = document.getElementById('add-button');
+			addButton.addEventListener('click', addNewItem);
+				
 			$(document).ready(function() {
 			
 			  // SideNav Button Initialization
