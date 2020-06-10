@@ -3,18 +3,17 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Storyboard Demo</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-			}
-		</style>
+		
 		<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap">
 		<link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/css/mdb.min.css">
 		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
 			.navbar 
 			{
 				z-index: 1040;
@@ -59,54 +58,19 @@
 					display: initial;
 				}
 			}
-			@media screen and (max-width: 675px) 
+			@media screen and (max-width: 665px) 
 			{
 				
 				#main
 				{
 					margin-top: 150px !important;
 				}
+				.btn-dark
+				{
+					padding:10px;
+				}
 			}
-			body .list
-			{
-				position: relative;
-				display: block;
-			}
-			body .list ::-webkit-input-placeholder 
-			{
-				color: #cecece;
-			}
-			body .list .input 
-			{
-				outline: none;
-				border: 1px solid white;
-				background-color: #53a8e6;
-				color: white;
-				height: 50px;
-				width: 250px;
-				padding-left: 10px;
-				font-family: "Raleway", sans-serif;
-				font-weight: 800;
-				font-size: 16px;
-				margin-left: -5px;
-			}
-			body .list span 
-			{
-				position: absolute;
-				right: 0;
-				top: 0;
-				font-size: 30px;
-				font-weight: 800;
-				line-height: 1.8;
-				cursor: pointer;
-				transition: all 200ms;
-				color: white;
-				will-change: transform;
-			}
-			body .list span:hover 
-			{
-				transform: rotate(180deg);
-			}
+			
 			body ul 
 			{
 				padding: 0px;
@@ -127,7 +91,7 @@
 			}
 			body ul .draggable:after 
 			{
-				content: 'drag me';
+				content: 'drag me to reorder';
 				right: 7px;
 				font-size: 10px;
 				position: absolute;
@@ -161,7 +125,7 @@
 			  width:80px;
 			  height:80px;
 			  background: red;
-			  top:100px;
+			  top:150px;
 			  background-color:#0C9;
 			  border-radius:50px;
 			  text-align:center;
@@ -182,19 +146,14 @@
 				margin: 0px;
 				padding: 0px;
 			}
-			.nav-item{
-				margin: 0px;
-				padding: 0px;
-			}
-			.btn-dark{
-				btn-dark: 0px;
-				btn-dark: 0px;
+
+			#app-title span
+			{
+				font-size:18px;
 			}
 			
 		</style>
-		<script>
-			
-		</script>
+		
 	</head>
 	
 	<body class="fixed-sn light-blue-skin">
@@ -274,7 +233,7 @@
 			
 				<h3 id="app-title">
 					Storyboard 
-					<span style="font-size:20px;"><i>(Version 1.0)</i></span>
+					<span><i>(Version 1.0)</i></span>
 					
 				</h3>
 				
@@ -339,7 +298,7 @@
 						</li>
 						<li>To add a new event click the <i class="fa fa-plus-circle" style="color:#00D191"></i> button</li>
 						<li>If your events become out of order: simply drag one event container onto another to swap their order in the story.</li>
-						<li>Once you have filled your desired number of events, click the run button to see the resulting story.</li>
+						<li>Once you have filled your desired number of events, click the green RUN button to see the resulting story.</li>
 						<li>If you wish to save what you write and add more later use the Download and Upload buttons.</li>
 					</ol>
 				</div>
