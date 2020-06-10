@@ -1,5 +1,14 @@
 # StoryBoard Application!
 
+## Diagram of application architecture:
+
+```mermaid
+graph TD
+A(UI) -- sends event list input--> B(Server)
+B -- returns generated text --> A
+B -- cleans and passes input --> C(Remote Language Model)
+C -- generates story text --> B
+```
 
 ## Language Model and Data Used:
 
@@ -32,3 +41,6 @@ Also note that the instances list in the curl command contains only one string (
  7. Create a kuberetes cluster (that will run your docker image) by: following this link [https://console.cloud.google.com/kubernetes/list](https://console.cloud.google.com/kubernetes/list), clicking +Create Cluster, and selecting the default values.
  8. Create a workload
  9. Test that the modal is running correctly by running the same curl command as before but replace the string "localhost:8501" with the external ip address of the loadbalancer for your cluster.
+
+					
+
