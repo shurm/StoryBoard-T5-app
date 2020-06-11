@@ -409,7 +409,9 @@
 				
 				function addNewItemHelper(text)
 				{
+					
 					var eventList = document.getElementById("event-list");
+
 					if(eventList.childElementCount>0)
 						cloneAndAddToEventList(eventList, "down-arrow");
 					
@@ -490,26 +492,26 @@
 				</a>
 			</div>
 				<ul id = "event-list">
-					<% if (typeof provided_texts != "undefined") { %>
-						
-						<% for(var i =0;i<provided_texts.length;i++) { %>
-						
-							<script>
-								var text = "<%= provided_texts[i]  %>"; 
-								
-								addNewItemHelper(decodeHtml(text));
-							
-							</script>
-							
-						<% } %>
-						
-					<% } %>
+					
 					
 				</ul>
 			<form>
 
 		</div>
-		
+		<% if (typeof provided_texts != "undefined") { %>
+						
+			<% for(var i =0;i<provided_texts.length;i++) { %>
+			
+				<script>
+					var text = "<%= provided_texts[i]  %>"; 
+					
+					addNewItemHelper(decodeHtml(text));
+				
+				</script>
+				
+			<% } %>
+						
+		<% } %>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/jquery.min.js"></script>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/popper.min.js"></script>
 		<script src="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.16.0/js/bootstrap.min.js"></script>

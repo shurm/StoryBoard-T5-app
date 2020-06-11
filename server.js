@@ -89,7 +89,7 @@ app.post('/queryStoryModel', function (req, res) {
 		}
 		 
 		console.log(generated_texts);
-		console.log("a.length "+generated_texts.length);
+		console.log("generated_texts.length "+generated_texts.length);
 
 		 console.log("promise.all done");
 		 //res.send("done");
