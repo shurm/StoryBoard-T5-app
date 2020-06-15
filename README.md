@@ -9,7 +9,7 @@ To create a story from a sequence of event descriptions, provided by the user. T
 
 ## Language Model and Data Used:
 
- This application generates text by using the recently released T5 ([Text-To-Text Transfer Transformer](https://github.com/google-research/text-to-text-transfer-transformer)) language model. More specifically the T5 model for this application is of size 'base' and was finetuned on the [ROCStories](https://www.cs.rochester.edu/nlp/rocstories/) dataset. More specific details of how I finetuned my own T5 model are stated in the .ipynb file.
+ This application generates text by using the recently released T5 ([Text-To-Text Transfer Transformer](https://github.com/google-research/text-to-text-transfer-transformer)) language model. More specifically the T5 model for this application is of size 'base' and was finetuned on the [ROCStories](https://www.cs.rochester.edu/nlp/rocstories/) dataset. I trained the model using two sentences from the same story as inputs and the text in-between those two sentences as the "correct" output. More details of how I finetuned my own T5 model are stated in the .ipynb file.
 
 ## Diagram of application architecture:
 
