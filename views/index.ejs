@@ -152,6 +152,41 @@
 				font-size:18px;
 			}
 			
+			.button-ring 
+			{
+				position: relative;
+			}
+
+
+			.button-ring::after 
+			{
+				content: '';
+				
+				border: 3px solid #FFF;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				animation: ring 1.5s infinite;
+			}
+
+
+
+			@keyframes ring 
+			{
+				0% {
+					width: 10px;
+					height: 10px;
+					opacity: 1;
+
+				}
+				100% {
+					width: 50px;
+					height: 50px;
+					opacity: 0;
+
+				}
+			}
 		</style>
 		
 	</head>
@@ -256,7 +291,7 @@
 				</ul>
 				<!-- SideNav slide-out button -->
 				<div class="float-right">
-					<a id="toggleRightSide" href="#" data-activates="slide-out" class="button-collapse navbar-button"><i class="fa fa-bars"></i></a>
+					<a id="toggleRightSide" href="#" data-activates="slide-out" class="button-collapse navbar-button button-ring"><i class="fa fa-bars"></i></a>
 				</div>
 			</nav>
 			<!-- /.Navbar -->
