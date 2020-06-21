@@ -4,12 +4,12 @@ currently running at [https://mike-storyboard-app.herokuapp.com/](https://mike-s
 **(works on mobile as well)**
 
 ## Purpose:
-To create a story from a sequence of event descriptions, provided by the user. To clarify the storyboard application will attempt to generate text which transitions from one event to the next event in the user provided list as well as text that should begin and conclude the story. 
+To artificially create a story from a sequence of event descriptions, provided by the user using NLP technology. TThe storyboard application attempts to generate (i) text which transitions from one event to the next event in the user provided list, (ii) as well as text that should begin and conclude the story. 
 
 
 ## Language Model and Data Used:
 
- This application generates text by using the recently released T5 ([Text-To-Text Transfer Transformer](https://github.com/google-research/text-to-text-transfer-transformer)) language model. More specifically the T5 model for this application is of size 'base' and was finetuned on the [ROCStories](https://www.cs.rochester.edu/nlp/rocstories/) dataset. I trained the model using two sentences from the same story as inputs and the text in-between those two sentences as the "correct" output. More details of how I finetuned my own T5 model are stated in the .ipynb file.
+Uses the recently released T5 ([Text-To-Text Transfer Transformer](https://github.com/google-research/text-to-text-transfer-transformer)) language model. More specifically the T5 model for this application is of size 'base' and was finetuned on the [ROCStories](https://www.cs.rochester.edu/nlp/rocstories/) dataset. I trained the model using two sentences from the same story as inputs and the text in-between those two sentences as the "correct" output. More details of how I finetuned my own T5 model are in the .ipynb file.
 
 ## Diagram of application architecture:
 
