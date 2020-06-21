@@ -17,7 +17,7 @@ Uses the recently released T5 ([Text-To-Text Transfer Transformer](https://githu
 
 ## User Interface Description:
 
- - Bootstrap & JQuery were used to create the FrontEnd of the application.
+ - Bootstrap & JQuery were used to create the FrontEnd (UI) of the application.
  - The UI uses the NodeJS library ejs to get information back from the server.
  -  Users can download the list of event descriptions to save their work and upload that file at a later time to resume their progress.
 
